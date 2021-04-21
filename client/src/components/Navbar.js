@@ -1,7 +1,6 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -17,10 +16,18 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     display: 'flex',
-    justifyContent: 'left',
+    // justifyContent: 'left',
   },
   button: {
     display: 'block',
+    color: '#FFF',
+    fontWeight: '600',
+    textTransform: 'none',
+    height:'auto',
+    '&:hover' : {
+      backgroundColor: fade('#FFF', 0.50),
+      color: fade('#000000', 1),
+    }
   },
   title: {
     flexGrow: 1,
@@ -31,15 +38,14 @@ const useStyles = makeStyles((theme) => ({
   },
   search: {
     position: 'relative',
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: '6px',
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
+      marginLeft: 'auto',
       width: 'auto',
     },
   },
@@ -106,18 +112,14 @@ const Navbar = () => {
     <div className={classes.root}>
       <AppBar  position="static">
         <Toolbar className ={classes.root} >
-        <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
-          </Typography>
-
             <Button
-                className={classes.button}
-                ref={anchorRef}
-                aria-controls={open ? 'menu-list-grow' : undefined}
-                aria-haspopup="true"
-                onClick={handleToggle}
-                >
-                Games
+              className={classes.button}
+              ref={anchorRef}
+              aria-controls={open ? 'menu-list-grow' : undefined}
+              aria-haspopup="true"
+              onClick={handleToggle}
+              >
+              Games
             </Button>
             <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
                 {({ TransitionProps, placement }) => (
@@ -137,7 +139,6 @@ const Navbar = () => {
                     </Grow>
                 )}
             </Popper>
-
           {/* Search bar */}
           <div className={classes.search}>
             <div className={classes.searchIcon}>

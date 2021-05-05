@@ -1,32 +1,50 @@
-const express = require("express");
-const cors = require("cors");
+const expressSession = require('express-session');
+const express        = require('express');
+const http           = require('http');
+const path           = require('path');
+const app            = express();
+const server         = http.Server(app);
+const socket         = require('socket.io');
+const io             = socket(server);
 
-const app = express();
+const passport       = require('./middlewares/authentication');
+const User           = require('./models/user');
 
-var corsOptions = {
-  origin: "http://localhost:8081"
-};
+app.use(express.json({limit: '500mb'})); //this might not be so good 
+app.use(expressSession({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.use(cors(corsOptions));
-
-// parse requests of content-type - application/json
-app.use(express.json());
-
-const db = require("./app/models");
-db.sequelize.sync({ force: true }).then(() => {
-    console.log("Drop and re-sync db.");
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize({
+  username: "root",
+  password: process.env.SQL_LOCAL_PASSWORD,
+  database: "Compenduim",
+  host: "127.0.0.1",
+  dialect: "mysql"
+});
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
   });
 
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
-
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome" });
-});
-
-// set port, listen for requests
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+
+// Controller Setup
+// app.use('/api',require('./controllers'))
+
+// for production use, we serve the static react build folder
+if (process.env.NODE_ENV === 'production' || true) {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+
+  // all unknown routes should be handed to our react app
+  app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  });
+}
+
+server.listen(PORT,()=>console.log('listening to port:', PORT));

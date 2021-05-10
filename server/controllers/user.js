@@ -6,7 +6,6 @@ const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 
 const passport = require('../middlewares/authentication');
-//const User = require('../models/user');
 
 
 //using walkietalkie creds for now
@@ -28,16 +27,36 @@ const upload = multer({ storage: storage });
 router.post('/signup', async (req, res) => {
   const { email, name, password } = req.body;
 
-  const result = await prisma.user.create({
-    data: {
-      email,
-      name,
-      password,
-      photoURL: 'https://s.pximg.net/common/images/no_profile.png',
-      socketId : null
+  const user = await prisma.user.findUnique({
+    where: {
+      email : email,
     },
-  })
-  res.json(result);
+  });
+
+  if(user) res.json({error: 'Email in use!'});
+  else{
+    const result = await prisma.user.create({
+      data: {
+        email,
+        name,
+        password,
+        photoURL: 'https://s.pximg.net/common/images/no_profile.png',
+        socketId : null,
+        profile : {
+          create : {
+            bio : 'fill me up!'
+          }
+        }
+      },
+    })
+    res.json(result);
+  }
+});
+
+// @Route GET /api/user/allusers
+router.get('/allusers', async (req, res) =>{
+  const allUsers = await prisma.user.findMany();
+  res.json(allUsers);
 })
 
 // // @Route GET /api/user/check

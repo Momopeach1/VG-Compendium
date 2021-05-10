@@ -11,26 +11,28 @@ generator client {
 }
 
 model Game {
-  id Int @id
-  name String?
-  desc String?
-  profiles Profile[]
+  id        Int       @id
+  name      String?
+  desc      String?
+  profiles  Profile[]
 }
 
 model Profile {
-  id     Int     @default(autoincrement()) @id
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  list   Game[]  
-  userId Int     @unique
+  id        Int       @default(autoincrement()) @id
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  bio       String?
+  user      User      @relation(fields: [userId], references: [id])
+  list      Game[]  
+  userId    Int     
 }
 
 model User {
-  id      Int      @default(autoincrement()) @id
-  email   String   @unique
-  name    String?
-  profile Profile?
-  password String?
-  photoURL String?
-  socketId String?
+  id        Int      @default(autoincrement()) @id
+  email     String   @unique
+  name      String?
+  password  String?
+  photoURL  String?
+  socketId  String?
+  profile   Profile?
 }

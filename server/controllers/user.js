@@ -6,7 +6,7 @@ const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 
 const passport = require('../middlewares/authentication');
-
+const bcrypt   = require('bcryptjs');
 
 //using walkietalkie creds for now
 cloudinary.config({
@@ -25,8 +25,7 @@ const upload = multer({ storage: storage });
 
 // @Route POST /api/user/signup
 router.post('/signup', async (req, res) => {
-  const { email, name, password } = req.body;
-
+  let { email, name, password } = req.body;
   const user = await prisma.user.findUnique({
     where: {
       email : email,
@@ -35,6 +34,7 @@ router.post('/signup', async (req, res) => {
 
   if(user) res.json({error: 'Email in use!'});
   else{
+    password = await bcrypt.hash(password, 12);
     const result = await prisma.user.create({
       data: {
         email,
@@ -53,16 +53,22 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+// @Route POST /api/user/login
+router.post('/login', passport.authenticate('local'), (req, res) => {
+  res.json(req.user);
+});
+
 // @Route GET /api/user/allusers
 router.get('/allusers', async (req, res) =>{
   const allUsers = await prisma.user.findMany();
   res.json(allUsers);
 })
 
-// // @Route GET /api/user/check
-// router.get('/check', passport.isLoggedIn(), (req, res) => {
-//   res.json(req.user);
-// });
+
+// @Route GET /api/user/check
+router.get('/check', passport.isLoggedIn(), (req, res) => {
+  res.json(req.user);
+});
 
 // // @Route GET /api/user
 // router.get('/', (req, res, next) => {
@@ -131,10 +137,6 @@ router.get('/allusers', async (req, res) =>{
 //   })
 // })
 
-// // @Route POST /api/user/signin
-// router.post('/signin', passport.authenticate('local'), (req, res) => {
-//   res.json(req.user);
-// });
 
 // // @Route POST /api/user/signout
 // router.post('/signout', (req, res) => {

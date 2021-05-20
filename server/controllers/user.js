@@ -64,9 +64,9 @@ router.get('/allusers', async (req, res) =>{
   res.json(allUsers);
 })
 
-
 // @Route GET /api/user/check
 router.get('/check', passport.isLoggedIn(), (req, res) => {
+  console.log(req.body);
   res.json(req.user);
 });
 

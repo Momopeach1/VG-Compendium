@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link, withRouter } from 'react-router-dom';
+
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import InputBase from '@material-ui/core/InputBase';
@@ -76,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navbar = () => {
+const Navbar = ({history}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -89,6 +91,7 @@ const Navbar = () => {
 
     prevOpen.current = open;
   }, [open]);
+
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -97,7 +100,6 @@ const Navbar = () => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-
     setOpen(false);
   };
 
@@ -106,10 +108,10 @@ const Navbar = () => {
       event.preventDefault();
       setOpen(false);
     }
-  }
+  };
 
   return (
-    <div className={classes.root}>
+    <div >
       <AppBar  position="static">
         <Toolbar className ={classes.root} >
             <Button
@@ -120,6 +122,12 @@ const Navbar = () => {
               onClick={handleToggle}
               >
               Games
+            </Button>
+            <Button
+              className={classes.button}
+              onClick={()=> history.push('/signup')}
+              >
+              Sign Up
             </Button>
             <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
                 {({ TransitionProps, placement }) => (
@@ -139,7 +147,7 @@ const Navbar = () => {
                     </Grow>
                 )}
             </Popper>
-          {/* Search bar */}
+
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -153,11 +161,11 @@ const Navbar = () => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          {/* End search bar */}
+
         </Toolbar>
       </AppBar>
     </div>
   );
 }
 
-export default Navbar;
+export default withRouter(Navbar);

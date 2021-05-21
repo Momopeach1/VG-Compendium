@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -122,12 +122,6 @@ const Navbar = ({history}) => {
               onClick={handleToggle}
               >
               Games
-            </Button>
-            <Button
-              className={classes.button}
-              onClick={()=> history.push('/signup')}
-              >
-              Sign Up
             </Button>
             <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
                 {({ TransitionProps, placement }) => (

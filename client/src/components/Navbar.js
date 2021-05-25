@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext }from 'react';
 import { withRouter } from 'react-router-dom';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -14,10 +14,15 @@ import MenuList from '@material-ui/core/MenuList';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 
+import HeadingContext from '../contexts/HeadingContext'
+
+import '../styles/Navbar.css';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     display: 'flex',
+    paddingLeft: 0,
     // justifyContent: 'left',
   },
   button: {
@@ -25,7 +30,10 @@ const useStyles = makeStyles((theme) => ({
     color: '#FFF',
     fontWeight: '600',
     textTransform: 'none',
+    fontSize: '16px',
+    padding: '18px',
     height:'auto',
+    borderRadius: '0px',
     '&:hover' : {
       backgroundColor: fade('#FFF', 0.50),
       color: fade('#000000', 1),
@@ -81,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
 const Navbar = ({history}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const { heading, setHeading } = useContext(HeadingContext);
   const anchorRef = React.useRef(null);
   const prevOpen = React.useRef(open);
 
@@ -129,15 +138,15 @@ const Navbar = ({history}) => {
                     {...TransitionProps}
                     style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
                     >
-                    <Paper>
-                        <ClickAwayListener onClickAway={handleClose}>
-                        <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={handleClose}>My account</MenuItem>
-                            <MenuItem onClick={handleClose}>Logout</MenuItem>
-                        </MenuList>
-                        </ClickAwayListener>
-                    </Paper>
+                      <Paper>
+                          <ClickAwayListener onClickAway={handleClose}>
+                          <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                              <MenuItem onClick={handleClose}>Profile</MenuItem>
+                              <MenuItem onClick={handleClose}>My account</MenuItem>
+                              <MenuItem onClick={handleClose}>Logout</MenuItem>
+                          </MenuList>
+                          </ClickAwayListener>
+                      </Paper>
                     </Grow>
                 )}
             </Popper>
@@ -158,6 +167,9 @@ const Navbar = ({history}) => {
 
         </Toolbar>
       </AppBar>
+      <h1 className='page-common'>
+        {heading}
+      </h1>
     </div>
   );
 }

@@ -1,2 +1,2 @@
-# A compenduim for video games
+# A compendium for video games
 

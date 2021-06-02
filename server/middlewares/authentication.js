@@ -16,7 +16,7 @@ passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'passwor
   if(!user) return done(null, false);
   const Valid = await bcrypt.compare(password, user.password);
   if(Valid) return done(null, user);
-  else return done(null, false);
+  return done(null, false, {error: 'Wrong Password!'});
 
 }));
 
@@ -24,8 +24,8 @@ passport.serializeUser((user, done) => {
   return done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-  const user = prisma.user.findUnique({
+passport.deserializeUser( async (id, done) => {
+  const user = await prisma.user.findUnique({
     where: {
       id: id,
     },

@@ -66,18 +66,14 @@ router.get('/allusers', async (req, res) =>{
 
 // @Route GET /api/user/check
 router.get('/check', passport.isLoggedIn(), (req, res) => {
-  console.log(req.body);
   res.json(req.user);
 });
 
-// // @Route GET /api/user
-// router.get('/', (req, res, next) => {
-//   User.find({}, (findErr, findRes) => {
-//     if (findErr) next(findErr);
-
-//     res.json(findRes);
-//   })
-// });
+// @Route POST /api/user/logout
+router.post('/logout', (req, res) => {
+  req.logout();
+  res.status(200).json({ message: "ok" });
+})
 
 // // @Route PUT /api/user
 // router.put('/', passport.isLoggedIn(), upload.single('photo'), async (req, res, next) => {
@@ -138,11 +134,7 @@ router.get('/check', passport.isLoggedIn(), (req, res) => {
 // })
 
 
-// // @Route POST /api/user/signout
-// router.post('/signout', (req, res) => {
-//   req.logout();
-//   res.status(200).json({ message: "ok" });
-// })
+
 
 
 

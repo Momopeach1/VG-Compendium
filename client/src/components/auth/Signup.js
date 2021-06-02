@@ -7,6 +7,9 @@ const Signup = () => {
         <div>
             <Header />
             <Navbar />
+            <h1>
+                hello Register
+            </h1>
         </div>
 
     );

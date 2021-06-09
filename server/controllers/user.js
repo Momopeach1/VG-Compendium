@@ -25,20 +25,19 @@ const upload = multer({ storage: storage });
 
 // @Route POST /api/user/signup
 router.post('/signup', async (req, res) => {
-  let { email, name, password } = req.body;
+  let { email, displayName, password } = req.body;
   const user = await prisma.user.findUnique({
     where: {
       email : email,
     },
   });
-
-  if(user) res.json({error: 'Email in use!'});
+  if(user) return res.status(400).send({error: 'Email in use!'});
   else{
     password = await bcrypt.hash(password, 12);
     const result = await prisma.user.create({
       data: {
         email,
-        name,
+        name: displayName,
         password,
         photoURL: 'https://s.pximg.net/common/images/no_profile.png',
         socketId : null,

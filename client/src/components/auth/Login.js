@@ -109,14 +109,15 @@ const Login = (props) => {
     }
   };
 
+  const renderError = () => error?
+  <Typography classes= {{root: classes.errorMsg}}>
+    {error}
+  </Typography> : null;
+
     return (
       <div>
-          <Header />
-          <Navbar />
           <form className="signin-form">
-            <Typography classes= {{root: classes.errorMsg}}>
-              {error}
-            </Typography>
+            {renderError()}
             <Typography classes= {{root: classes.textfieldHeading}}>
               Email
             </Typography>
@@ -158,9 +159,9 @@ const Login = (props) => {
             </Button>
             <p>
               Need an account?{" "}
-              <Link to="signup">
-                Register
-              </Link> 
+            <Link to="signup">
+              Register
+            </Link> 
             </p>
           </form>
       </div>

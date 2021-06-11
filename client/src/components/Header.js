@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
+
+import UserContext from '../contexts/UserContext';
+
 import { fade, makeStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import useHeader from '../hooks/useHeader';
+
 import '../styles/header.css';
 
 const useStyles = makeStyles({
@@ -32,10 +37,18 @@ const useStyles = makeStyles({
     },
 });
 
+
 const Header = ({history}) => {
-  
-    const classes = useStyles();
-    return (
+  const { isAuth } = useContext(UserContext);
+  const classes = useStyles();
+  const [renderLoggedIn] = useHeader();
+
+  // useEffect(() =>{
+  //   console.log(isAuth)
+  // }, [isAuth])
+
+    if(!isAuth) {
+      return (
         <div className='header'>
           <div className='header-buttons'>
             <Button
@@ -52,7 +65,8 @@ const Header = ({history}) => {
             </Button>
           </div>
         </div>
-    )
+      )
+    } else return(renderLoggedIn(history));
 }
 
 export default withRouter(Header);

@@ -1,4 +1,4 @@
-import React, { useContext }from 'react';
+import React, { useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -14,7 +14,7 @@ import MenuList from '@material-ui/core/MenuList';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 
-import HeadingContext from '../contexts/HeadingContext'
+import Heading from './Heading';
 
 import '../styles/Navbar.css';
 
@@ -89,7 +89,6 @@ const useStyles = makeStyles((theme) => ({
 const Navbar = ({history}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const { heading, setHeading } = useContext(HeadingContext);
   const anchorRef = React.useRef(null);
   const prevOpen = React.useRef(open);
 
@@ -167,9 +166,7 @@ const Navbar = ({history}) => {
 
         </Toolbar>
       </AppBar>
-      <h1 className='page-common'>
-        {heading}
-      </h1>
+      <Heading />
     </div>
   );
 }

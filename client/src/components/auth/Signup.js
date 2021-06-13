@@ -55,6 +55,17 @@ const useStyles = makeStyles({
       fontSize: '1.2rem',
       fontFamily: 'whitney-book',
       paddingBottom: '5px',
+    },
+    errorMsg: {
+      backgroundColor: '#FAE3E3',
+      borderColor: '#B25959',
+      borderStyle: 'solid',
+      borderWidth: '2px',
+      fontSize: '1.4rem',
+      fontFamily: 'whitney-book',
+      padding: '10px',
+      margin: '10px',
+      textAlign: 'center',
     }
   });
 

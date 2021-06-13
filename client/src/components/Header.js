@@ -43,30 +43,26 @@ const Header = ({history}) => {
   const classes = useStyles();
   const [renderLoggedIn] = useHeader();
 
-  // useEffect(() =>{
-  //   console.log(isAuth)
-  // }, [isAuth])
-
-    if(!isAuth) {
-      return (
-        <div className='header'>
-          <div className='header-buttons'>
-            <Button
-              className={classes.inverseButton}
-              onClick={()=> history.push('/login')}
+  if(!isAuth) {
+    return (
+      <div className='header'>
+        <div className='header-buttons'>
+          <Button
+            className={classes.inverseButton}
+            onClick={()=> history.push('/login')}
+          >
+            Login
+          </Button>
+          <Button
+            className={classes.button}
+            onClick={()=> history.push('/signup')}
             >
-              Login
-            </Button>
-            <Button
-              className={classes.button}
-              onClick={()=> history.push('/signup')}
-              >
-              Signup
-            </Button>
-          </div>
+            Signup
+          </Button>
         </div>
-      )
-    } else return(renderLoggedIn(history));
+      </div>
+    )
+  } else return(renderLoggedIn(history));
 }
 
 export default withRouter(Header);

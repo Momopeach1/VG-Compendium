@@ -10,6 +10,7 @@ import Signup from './auth/Signup';
 import Homepage from './Homepage';
 import Navbar from './Navbar';
 import Header from './Header'
+import Profile from './Profile';
 
 const App = () => {
   useApp();
@@ -21,6 +22,7 @@ const App = () => {
         <Route exact path='/' component={Homepage} />
         <Route path='/signup' component={Signup} />
         <Route path='/login' component={Login} />
+        <Route path='/profile' component={Profile} />
       </Switch>
     </Router>
   );

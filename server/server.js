@@ -6,7 +6,7 @@ const app            = express();
 const server         = http.Server(app);
 const socket         = require('socket.io');
 const io             = socket(server);
-
+const dotenv         = require('dotenv').config() 
 const passport       = require('./middlewares/authentication');
 
 app.use(express.json());

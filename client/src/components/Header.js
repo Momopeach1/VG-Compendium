@@ -41,11 +41,12 @@ const useStyles = makeStyles({
 const Header = ({history}) => {
   const { isAuth } = useContext(UserContext);
   const classes = useStyles();
-  const [renderLoggedIn] = useHeader();
+  const [renderLoggedIn, renderLogo] = useHeader();
 
   if(!isAuth) {
     return (
       <div className='header'>
+        {renderLogo()}
         <div className='header-buttons'>
           <Button
             className={classes.inverseButton}

@@ -6,3 +6,11 @@
     display: flex;
     margin-left: auto;
 }
+.header-logo {
+    padding: 10px;
+    font-size: 1.2rem;
+    font-family: 'whitney-book';
+}
+.header-logo:hover {
+    cursor: pointer;
+}
